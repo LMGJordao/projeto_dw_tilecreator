@@ -348,5 +348,4 @@ document.addEventListener("DOMContentLoaded", async e => {
         tagButton.appendChild(tagElement);
         tagContainer.appendChild(tagButton);
     });
-    console.log(env.CMS_SLUG);
 });
