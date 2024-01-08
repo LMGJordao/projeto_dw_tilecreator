@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tile Creator</title>
+
+    <link rel="stylesheet" href="tileCreatorStyle.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="btnsParametersContainer">
+            <div class="parametersContainer" id="tilesetParameters">
+                <button class="btnsParameters" onclick="changeShape('rect')">Rectangles</button>
+                <button class="btnsParameters" onclick="changeShape('triangle')">Triangles</button>
+                <button class="btnsParameters" onclick="changeShape('circle')">Circles</button>
+                <button class="btnsParameters" onclick="changeShape('wave')">Wave</button>
+                <button class="btnsParameters" onclick="changeShape('cross')">Cross</button>
+                <button class="btnsParameters" onclick="changeShape('plus')">Plus</button>
+                <button class="btnsParameters" onclick="changeShape('random')">Random</button>
+            </div>
+            <div class="parametersContainer" id="sizeParameters">
+
+                Shape size<input type="range" min="1" max="100" value="100" class="slider" id="shapeSize"> <span
+                    id="currentShapeSize">100 %</span>
+                <br>
+            </div>
+            <div class="parametersContainer" id="gridParameters">
+                Rows<input type="range" min="2" max="20" value="10" class="slider" id="gridRows"> <span
+                    id="currentRows">10</span>
+                <br>
+                Columns<input type="range" min="2" max="20" value="10" class="slider" id="gridColumns"> <span
+                    id="currentColumns">10</span>
+                <br>
+                Grid lines<input type="checkbox" id="gridCheckbox" name="gridCheckbox" value="gridCheckbox"
+                    checked="true">
+
+            </div>
+            <div class="parametersContainer" id="colorParameters">
+                Background shapes<input type="checkbox" id="shapeBackgroundColorCheckbox"
+                    name="shapeBackgroundColorCheckbox" value="gridCheckbox" checked="true"><br>
+
+            </div>
+
+            <div class="parametersContainer" id="shareParameters">
+                <form id="publishForm">
+                    <input type="text" id="title" name="title" placeholder="Title" required><br><br>
+                    <textarea s rows="3" type="text" id="description" name="description" placeholder="Description" required></textarea><br><br>
+                    <input type="text" id="author" name="author" placeholder="Author" required><br><br>
+                    <div id="tags">
+
+                    </div><br>
+                    <div id="formButtons">
+                        <button type="button" class="btnsParameters" onclick="exportTile()">Export</button>
+                        <button class="btnsParameters" type="submit">Publish</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="btnsSettingsContainer">
+            <button class="btnsSettings" id="tilesetBtn"
+                onclick="toggleParameters('tilesetBtn','tilesetParameters')"><svg width="25" height="26"
+                    viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="0.5" width="30" height="30" rx="2" stroke="white" stroke-width="1"
+                        mask="url(#path-1-inside-1_329_3364)" />
+                    <g filter="url(#filter0_d_329_3364)">
+                        <mask id="path-2-inside-2_329_3364" fill="white">
+                            <rect x="4" y="0.5" width="30" height="30" rx="2" />
+                        </mask>
+                        <rect x="4" y="0.5" width="30" height="30" rx="2" stroke="white" stroke-width="8"
+                            shape-rendering="crispEdges" mask="url(#path-2-inside-2_329_3364)" />
+                    </g>
+                    <defs>
+                        <filter id="filter0_d_329_3364" x="0" y="0.5" width="38" height="38"
+                            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feColorMatrix in="SourceAlpha" type="matrix"
+                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                            <feOffset dy="4" />
+                            <feGaussianBlur stdDeviation="2" />
+                            <feComposite in2="hardAlpha" operator="out" />
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_329_3364" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_329_3364"
+                                result="shape" />
+                        </filter>
+                    </defs>
+                </svg>
+
+                Tileset</button>
+            <button class="btnsSettings" id=sizeBtn onclick="toggleParameters('sizeBtn','sizeParameters')"><svg
+                    width="25" height="26" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_329_1073)">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.91245 1.76083C8.91844 1.0705 8.36366 0.506031 7.67333 0.500048C6.983 0.494065 6.41853 1.04884 6.41255 1.73917L6.3681 6.8681L1.23917 6.91255C0.548838 6.91853 -0.00593488 7.483 4.79387e-05 8.17333C0.00603083 8.86366 0.570504 9.41844 1.26083 9.41245L6.34643 9.36838L6.25005 20.4892L6.25 20.5C6.25 21.4946 6.64509 22.4484 7.34835 23.1517C8.05161 23.8549 9.00544 24.25 10 24.25H21.25V29.25C21.25 29.9404 21.8096 30.5 22.5 30.5C23.1904 30.5 23.75 29.9404 23.75 29.25V24.25H28.75C29.4404 24.25 30 23.6904 30 23C30 22.3096 29.4404 21.75 28.75 21.75H23.75V10.5C23.75 9.50544 23.3549 8.55161 22.6517 7.84835C21.9484 7.14509 20.9946 6.75 20 6.75L19.9892 6.75005L8.86838 6.84643L8.91245 1.76083ZM8.84671 9.34671L8.75001 20.5045C8.75119 20.8344 8.88276 21.1505 9.11612 21.3839C9.35054 21.6183 9.66848 21.75 10 21.75H21.25V10.5C21.25 10.1685 21.1183 9.85054 20.8839 9.61612C20.6505 9.38276 20.3344 9.25119 20.0045 9.25001L8.84671 9.34671Z"
+                            fill="white" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_329_1073">
+                            <rect width="30" height="30" fill="white" transform="translate(0 0.5)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                Size</button>
+            <button class="btnsSettings" id=gridBtn onclick="toggleParameters('gridBtn','gridParameters')"><svg
+                    width="25" height="26" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M3.75 3C3.05964 3 2.5 3.55964 2.5 4.25V13C2.5 13.6904 3.05964 14.25 3.75 14.25H12.5C13.1904 14.25 13.75 13.6904 13.75 13V4.25C13.75 3.55964 13.1904 3 12.5 3H3.75ZM5 11.75V5.5H11.25V11.75H5Z"
+                        fill="#F2EDEB" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M17.5 3C16.8096 3 16.25 3.55964 16.25 4.25V13C16.25 13.6904 16.8096 14.25 17.5 14.25H26.25C26.9404 14.25 27.5 13.6904 27.5 13V4.25C27.5 3.55964 26.9404 3 26.25 3H17.5ZM18.75 11.75V5.5H25V11.75H18.75Z"
+                        fill="#F2EDEB" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M16.25 18C16.25 17.3096 16.8096 16.75 17.5 16.75H26.25C26.9404 16.75 27.5 17.3096 27.5 18V26.75C27.5 27.4404 26.9404 28 26.25 28H17.5C16.8096 28 16.25 27.4404 16.25 26.75V18ZM18.75 19.25V25.5H25V19.25H18.75Z"
+                        fill="#F2EDEB" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M3.75 16.75C3.05964 16.75 2.5 17.3096 2.5 18V26.75C2.5 27.4404 3.05964 28 3.75 28H12.5C13.1904 28 13.75 27.4404 13.75 26.75V18C13.75 17.3096 13.1904 16.75 12.5 16.75H3.75ZM5 25.5V19.25H11.25V25.5H5Z"
+                        fill="#F2EDEB" />
+                </svg>
+
+                Grid</button>
+            <button class="btnsSettings" id=colorBtn onclick="toggleParameters('colorBtn','colorParameters')"><svg
+                    width="25" height="26" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M15.8835 2.97842C15.6489 2.74387 15.3308 2.61216 14.9991 2.6123C14.6673 2.61245 14.3493 2.74444 14.1149 2.9792L7.05352 10.0531C5.47985 11.6261 4.40718 13.6311 3.97257 15.8132C3.53789 17.9957 3.76025 20.2581 4.61151 22.3142C5.46278 24.3703 6.90472 26.1277 8.75493 27.3642C10.6051 28.6007 12.7805 29.2607 15.0059 29.2607C17.2312 29.2607 19.4066 28.6007 21.2568 27.3642C23.107 26.1277 24.5489 24.3703 25.4002 22.3142C26.2515 20.2581 26.4738 17.9957 26.0392 15.8132C25.6045 13.6309 24.5324 11.6264 22.9585 10.0534L15.8835 2.97842ZM15.0004 5.63085L21.1907 11.8212C22.415 13.0447 23.2492 14.604 23.5873 16.3015C23.9254 17.999 23.7525 19.7587 23.0904 21.3578C22.4283 22.957 21.3068 24.3239 19.8677 25.2856C18.4286 26.2474 16.7367 26.7607 15.0059 26.7607C13.275 26.7607 11.5831 26.2474 10.144 25.2856C8.70497 24.3239 7.58347 22.957 6.92137 21.3578C6.25927 19.7587 6.08633 17.999 6.42441 16.3015C6.7625 14.604 7.59642 13.045 8.82071 11.8215L15.0004 5.63085Z"
+                        fill="white" />
+                </svg>
+                Color</button>
+            <button class="btnsSettings" id=shareBtn onclick="toggleParameters('shareBtn','shareParameters')"><svg
+                    width="25" height="26" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M14.1161 2.11612C14.6043 1.62796 15.3957 1.62796 15.8839 2.11612L20.8839 7.11612C21.372 7.60427 21.372 8.39573 20.8839 8.88388C20.3957 9.37204 19.6043 9.37204 19.1161 8.88388L16.25 6.01777L16.25 19.25C16.25 19.9404 15.6904 20.5 15 20.5C14.3096 20.5 13.75 19.9404 13.75 19.25L13.75 6.01777L10.8839 8.88388C10.3957 9.37204 9.60427 9.37204 9.11612 8.88388C8.62796 8.39573 8.62796 7.60427 9.11612 7.11612L14.1161 2.11612Z"
+                        fill="white" />
+                    <path
+                        d="M5 14.25C5.69036 14.25 6.25 14.8096 6.25 15.5V25.5C6.25 25.8315 6.3817 26.1495 6.61612 26.3839C6.85054 26.6183 7.16848 26.75 7.5 26.75H22.5C22.8315 26.75 23.1495 26.6183 23.3839 26.3839C23.6183 26.1495 23.75 25.8315 23.75 25.5V15.5C23.75 14.8096 24.3096 14.25 25 14.25C25.6904 14.25 26.25 14.8096 26.25 15.5V25.5C26.25 26.4946 25.8549 27.4484 25.1517 28.1516C24.4484 28.8549 23.4946 29.25 22.5 29.25H7.5C6.50544 29.25 5.55161 28.8549 4.84835 28.1516C4.14509 27.4484 3.75 26.4946 3.75 25.5V15.5C3.75 14.8096 4.30964 14.25 5 14.25Z"
+                        fill="white" />
+                </svg>
+                Share</button>
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/p5.js-svg@1.5.1"></script>
+    <script src="p5.js"></script>
+</body>
+
+</html>
