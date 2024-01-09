@@ -283,6 +283,10 @@ async function postImage(e) {
                         'Accept': 'application/json, text/plain, */*',
                         'Content-Type': 'application/json'
                     }
+            }).then(_ => {
+                alert("Post successfully published!");
+            }, _ => {
+                alert("Post failed to publish!");
             });
         })
 }
